@@ -1,0 +1,60 @@
+/* Style for the container */
+.Authcontainer {
+  max-width: 400px;
+  margin: 80px auto; /* Adds space between the navbar and form */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Heading */
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Form labels */
+.form-label {
+  font-weight: bold;
+  color: #555;
+}
+
+/* Error message styling */
+.text-danger {
+  color: #d9534f;
+  font-weight: bold;
+}
+
+/* Input fields */
+.form-control {
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Submit Button */
+.btn {
+  width: 100%;
+  background-color: #1976d2;
+  border: none;
+  padding: 10px;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #125ca9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .container {
+    padding: 10px;
+  }
+}

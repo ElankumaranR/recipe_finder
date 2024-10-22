@@ -1,0 +1,27 @@
+.custom-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    backdrop-filter: blur(8px); /* Blur effect */
+    z-index: 1040; /* Ensure it's above other content but below the modal */
+}
+
+/* Optional: You may want to style the modal itself */
+.modal-content {
+    background-color: #fff; /* White background for modal content */
+}
+
+/* Close button styles */
+.modal-header .close {
+    position: absolute; /* Position the close button */
+    right: 1rem; /* Align it to the right */
+    top: 1rem; /* Slightly offset from the top */
+    font-size: 1.5rem; /* Increase size for better visibility */
+    border: none; /* Remove border */
+    background: none; /* No background */
+    color: #000; /* Change color for better visibility */
+    opacity: 1; /* Ensure it's fully opaque */
+}
