@@ -33,7 +33,7 @@ const addToWishlist = async () => {
   <i className={`fa${wishlistAdded ? 's' : 'r'} fa-heart`}></i>
   {wishlistAdded ? ' Added to Wishlist' : ' Add to Wishlist'}
 </button>
-        <button onClick={handleModalToggle} className="btn btn-primary">View More</button>
+        <button onClick={handleModalToggle} className="btn btn-primary ">View More</button>
       </div>
 
       {/* Custom Overlay */}

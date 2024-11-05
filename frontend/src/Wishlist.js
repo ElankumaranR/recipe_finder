@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './search/components/RecipeCard.css';
+import './Wishlist.css'; // Your custom styles
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const apiKey = 'e853d5e10b66414ea825020d21772872'; // Replace with your Spoonacular API key
 
@@ -11,6 +12,9 @@ const Wishlist = () => {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user.uid;
+  const removeLinks = (htmlString) => {
+    return htmlString.replace(/<a[^>]*>(.*?)<\/a>/g, '$1');
+  };
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -40,7 +44,7 @@ const Wishlist = () => {
     try {
       await axios.post('http://localhost:5000/wishlist/remove', { userId, recipeId });
       setWishlist(wishlist.filter(recipe => recipe !== recipeId));
-      setRecipeDetails(recipeDetails.filter(recipe => recipe !== recipeId));
+      setRecipeDetails(recipeDetails.filter(recipe => recipe.id !== recipeId));
     } catch (error) {
       console.error("Error removing from wishlist:", error);
     }
@@ -77,32 +81,38 @@ const Wishlist = () => {
       </div>
 
       {selectedRecipe && (
-        <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">{selectedRecipe.title}</h5>
-                <button type="button" className="close" onClick={handleClose} aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <img src={selectedRecipe.image} alt={selectedRecipe.title} className="img-fluid" />
-                <h6>Ingredients:</h6>
-                <ul>
-                  {selectedRecipe.extendedIngredients.map(ingredient => (
-                    <li key={ingredient.id}>{ingredient.original}</li>
-                  ))}
-                </ul>
-                <h6>Instructions:</h6>
-                <p>{selectedRecipe.instructions}</p>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={handleClose}>Close</button>
+        <>
+          {/* Custom Overlay */}
+          <div className="custom-overlay" onClick={handleClose}></div>
+
+          {/* Bootstrap Modal */}
+          <div className={`modal fade show`} style={{ display: 'block' }} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">{selectedRecipe.title}</h5>
+                  <button type="button" className="close" onClick={handleClose} aria-label="Close">
+                    <span>&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <img src={selectedRecipe.image} alt={selectedRecipe.title} className="modal-image" />
+                  <h6>Ingredients:</h6>
+                  <ul>
+                    {selectedRecipe.extendedIngredients.map(ingredient => (
+                      <li key={ingredient.id}>{ingredient.original}</li>
+                    ))}
+                  </ul>
+                  <h6>Instructions:</h6>
+                  <p dangerouslySetInnerHTML={{ __html: removeLinks(selectedRecipe.instructions) || 'No instructions available.' }}></p>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" onClick={handleClose}>Close</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
