@@ -1,11 +1,13 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import './components/Navbar.css'; // Import the custom CSS file
+import './components/Navbar.css'; 
+
+
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -23,11 +25,15 @@ const NavBar = () => {
           <Nav className="ml-auto">
             <Nav.Link href="/" className="nav-link-custom">Home</Nav.Link>
             <Nav.Link href="/search" className="nav-link-custom">Search</Nav.Link>
-            <Nav.Link href="/login" className="nav-link-custom">Login</Nav.Link>
-            <Nav.Link href="/signup" className="nav-link-custom">Signup</Nav.Link>
-            <button onClick={handleLogout} className="btn btn-logout">
-              Logout
-            </button>
+            
+            {user ? (
+              <NavDropdown title={user.username} id="user-dropdown" className="nav-link-custom">
+                <NavDropdown.Item href="/wishlist">WishList</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <Nav.Link href="/login" className="nav-link-custom">Login</Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

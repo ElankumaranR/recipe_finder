@@ -8,7 +8,8 @@ const RecipeForm = () => {
     image: '',
     totalTime: '',
     calories: '',
-    ingredients: ['']
+    ingredients: [''],
+    procedure:'',
   });
 
   const [message, setMessage] = useState('');
@@ -108,6 +109,16 @@ const RecipeForm = () => {
               required
             />
           ))}
+          <div className="form-group">
+  <label>Procedure</label>
+  <textarea
+    name="procedure"
+    className="form-control"
+    value={formData.procedure}
+    onChange={handleChange}
+    required
+  />
+</div>
           <button
             type="button"
             className="btn btn-secondary"

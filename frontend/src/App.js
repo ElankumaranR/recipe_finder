@@ -7,12 +7,11 @@ import Home from './home/home';
 import Signup from './logins/signup';
 import Login from './logins/login';
 import Nav from './Nav/Navbar'; 
-import ProtectedRoute from './Nav/components/ProtectedRoute'; // Import ProtectedRoute
-import OTP from './logins/components/otp';
+import ProtectedRoute from './Nav/components/ProtectedRoute'; 
 import AdminLogin from './admin/AdminLogin';
 import AdminSignup from './admin/AdminSignup';
 import Dashboard from './admin/dashboard';
-
+import Wishlist from './Wishlist';
 const theme = createTheme({
   palette: {
     primary: {
@@ -28,28 +27,27 @@ const theme = createTheme({
 });
 
 function App() {
-  const location = useLocation(); // Get current location
+  const location = useLocation();
 
-  // Define routes that should not display the Nav component
   const noNavRoutes = ['/admin', '/admin/signup', '/dash'];
 
   return (
     <ThemeProvider theme={theme}>
       <div className="container">
-        {/* Conditionally render Nav based on the current route */}
-        {!noNavRoutes.includes(location.pathname) && <Nav />} {/* Add Logout button here */}
+        {!noNavRoutes.includes(location.pathname) && <Nav />} 
       </div>
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} /> {/* Route for Home */}
-        <Route path="/otp" element={<OTP />} /> 
+        <Route path="/" element={<Home />} /> 
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/signup" element={<AdminSignup />} />
         <Route path="/dash" element={<Dashboard />} />
+        <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
+
         <Route path="/search" element={
           <ProtectedRoute>
-            <Search /> {/* Protected Search Route */}
+            <Search /> 
           </ProtectedRoute>
         } />
       </Routes>

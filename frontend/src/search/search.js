@@ -10,20 +10,20 @@ const Search = () => {
   const [recipes, setRecipes] = useState([]);  // Store combined recipes
   const handleSearch = async (query) => {
     try {
-      // Fetch API recipes (external)
       const data = await fetchRecipes(query);
-      const apiRecipes = data.hits.map(hit => ({
-        uri: hit.recipe.uri,
-        label: hit.recipe.label,
-        image: hit.recipe.image,
-        calories: hit.recipe.calories,
-        totalTime: hit.recipe.totalTime,
-        ingredients: hit.recipe.ingredients.map(i => i.text),
-      }));
+      const apiRecipes = data?.map(recipe => ({
+        _id: recipe.id,
+        uri: recipe.sourceUrl,
+        label: recipe.title, 
+        image: recipe.image, 
+        calories: recipe.pricePerServing, 
+        totalTime: recipe.readyInMinutes,
+        ingredients: recipe.extendedIngredients.map(i => i.name), 
+        procedure: recipe.summary 
+      })) || [];
   
-      // Fetch MongoDB recipes with a query filter
       const response = await axios.get(`http://localhost:5000/recipes`, {
-        params: { label: query }  // Pass the query as 'label'
+        params: { label: query }  
       });
       const mongoData = response.data.map(recipe => ({
         _id: recipe._id,
@@ -32,11 +32,11 @@ const Search = () => {
         calories: recipe.calories,
         totalTime: recipe.totalTime,
         ingredients: recipe.ingredients,
+        procedure: recipe.procedure,
       }));
   
-      // Combine both MongoDB and API recipes
       const combinedRecipes = [...mongoData, ...apiRecipes];
-      setRecipes(combinedRecipes);  // Set the combined recipes to state
+      setRecipes(combinedRecipes);  
     } catch (error) {
       console.error('Error fetching recipes:', error);
     }
@@ -44,7 +44,6 @@ const Search = () => {
   
 
 
-  // Check for logged in user
   const user = JSON.parse(localStorage.getItem('user'));
 
   if (!user) {
@@ -60,7 +59,7 @@ const Search = () => {
       </div>
       
       <div className="recipe">  
-        <RecipeList recipes={recipes} />  
+        <RecipeList recipes={recipes} userId = {user.uid}/>  
       </div>
     </div>
   );
