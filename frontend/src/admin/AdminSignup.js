@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './signup.css'; // Import the CSS file
 
 const AdminSignup = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ const AdminSignup = () => {
       const res = await axios.post('http://localhost:5000/admin/signup', formData);
       setMessage(res.data.message);
     } catch (err) {
-      setMessage(err.response.data.message || 'Server error');
+      setMessage(err.response?.data?.message || 'Server error');
     }
   };
 
@@ -54,6 +55,9 @@ const AdminSignup = () => {
         <button type="submit">Sign Up</button>
       </form>
       {message && <p>{message}</p>}
+      <p className="login-link">
+        Already have an account? <a href="/admin">Log in here</a>
+      </p>
     </div>
   );
 };

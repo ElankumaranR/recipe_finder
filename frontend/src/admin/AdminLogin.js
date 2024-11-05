@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './login.css'; // Import the CSS file
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -22,9 +23,11 @@ const AdminLogin = () => {
     
     try {
       const res = await axios.post('http://localhost:5000/admin/login', formData);
-      navigate('/dash');   // Store the token in local storage
+      // Store the token in local storage (if applicable)
+      localStorage.setItem('token', res.data.token); // Store token
+      navigate('/dash');
     } catch (err) {
-      setMessage(err.response.data.message || 'Server error');
+      setMessage(err.response?.data?.message || 'Server error');
     }
   };
 
@@ -55,6 +58,9 @@ const AdminLogin = () => {
         <button type="submit">Log In</button>
       </form>
       {message && <p>{message}</p>}
+      <p className="signup-link">
+        Don't have an account? <a href="/admin/signup">Sign up here</a>
+      </p>
     </div>
   );
 };

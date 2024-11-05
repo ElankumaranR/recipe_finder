@@ -1,39 +1,50 @@
 const apiKey = 'e853d5e10b66414ea825020d21772872';
+export const fetchRecipes = async (query, ingredients, timeLimit) => {
+  let searchUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}`;
 
-export const fetchRecipes = async (query) => {
-  const searchUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&query=${query}`;
-  
+  if (query) {
+    searchUrl += `&query=${encodeURIComponent(query)}`;
+  }
+  if (ingredients) {
+    searchUrl += `&includeIngredients=${encodeURIComponent(ingredients)}`;
+  }
+  if (timeLimit) {
+    searchUrl += `&maxReadyTime=${encodeURIComponent(timeLimit)}`;
+  }
+
   try {
-    // Fetch the search results
     const searchResponse = await fetch(searchUrl);
-    const searchData = await searchResponse.json();
 
-    if (!searchResponse.ok) {
-      console.error('Error fetching recipes:', searchData);
-      throw new Error(searchData.message || 'Failed to fetch recipes');
+    console.log('Response Status:', searchResponse.status);
+    console.log('Content-Type:', searchResponse.headers.get('content-type'));
+
+    if (!searchResponse.ok || !searchResponse.headers.get('content-type')?.includes('application/json')) {
+      throw new Error(`Unexpected response format or status: ${searchResponse.status}`);
     }
 
-    // Extract recipe IDs from the search results
-    const recipeIds = searchData.results.map(recipe => recipe.id).join(',');
+    const searchData = await searchResponse.json();
+    console.log('Search Data:', searchData);
 
-    // If there are no recipes, return an empty array
-    if (recipeIds.length === 0) {
+    if (!searchData.results || searchData.results.length === 0) {
       return [];
     }
 
-    // Fetch detailed information for the recipes using their IDs
-    const infoUrl = `https://api.spoonacular.com/recipes/informationBulk?ids=${recipeIds}&apiKey=${apiKey}`;
-    const infoResponse = await fetch(infoUrl);
-    const infoData = await infoResponse.json();
-
-    if (!infoResponse.ok) {
-      console.error('Error fetching recipe details:', infoData);
-      throw new Error(infoData.message || 'Failed to fetch recipe details');
+    const recipeIds = searchData.results.map(recipe => recipe.id).join(',');
+    if (!recipeIds) {
+      return [];
     }
 
-    return infoData; // Returns the detailed recipe information
+    const infoUrl = `https://api.spoonacular.com/recipes/informationBulk?ids=${recipeIds}&apiKey=${apiKey}`;
+    const infoResponse = await fetch(infoUrl);
+
+    if (!infoResponse.ok || !infoResponse.headers.get('content-type')?.includes('application/json')) {
+      throw new Error(`Unexpected response format or status: ${infoResponse.status}`);
+    }
+
+    const infoData = await infoResponse.json();
+    return infoData;
   } catch (error) {
     console.error('Error:', error);
-    return []; // Return an empty array in case of an error
+    return []; 
   }
 };

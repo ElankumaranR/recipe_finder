@@ -8,22 +8,24 @@ import { Navigate } from 'react-router-dom';
 
 const Search = () => {
   const [recipes, setRecipes] = useState([]);  // Store combined recipes
-  const handleSearch = async (query) => {
+  const handleSearch = async (query, ingredients, timeLimit) => {
     try {
-      const data = await fetchRecipes(query);
-      const apiRecipes = data?.map(recipe => ({
+      // Fetch data from the Spoonacular API
+      const data = await fetchRecipes(query, ingredients, timeLimit);
+      const apiRecipes = data.map(recipe => ({
         _id: recipe.id,
         uri: recipe.sourceUrl,
-        label: recipe.title, 
-        image: recipe.image, 
-        calories: recipe.pricePerServing, 
+        label: recipe.title,
+        image: recipe.image,
+        calories: recipe.pricePerServing,
         totalTime: recipe.readyInMinutes,
-        ingredients: recipe.extendedIngredients.map(i => i.name), 
-        procedure: recipe.summary 
-      })) || [];
+        ingredients: recipe.extendedIngredients.map(i => i.name),
+        procedure: recipe.summary
+      }));
   
+      // Fetch data from MongoDB
       const response = await axios.get(`http://localhost:5000/recipes`, {
-        params: { label: query }  
+        params: { label: query, ingredients, timeLimit }
       });
       const mongoData = response.data.map(recipe => ({
         _id: recipe._id,
@@ -35,12 +37,15 @@ const Search = () => {
         procedure: recipe.procedure,
       }));
   
+      // Combine and set the recipes
       const combinedRecipes = [...mongoData, ...apiRecipes];
-      setRecipes(combinedRecipes);  
+      setRecipes(combinedRecipes);
     } catch (error) {
       console.error('Error fetching recipes:', error);
     }
   };
+  
+
   
 
 

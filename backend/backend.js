@@ -83,6 +83,11 @@ const wishlistSchema = new mongoose.Schema({
 
 const Wishlist = mongoose.model('Wishlist', wishlistSchema);
 
+app.delete('/recipes/:id', async (req, res) => {
+  await Recipe.findByIdAndDelete(req.params.id);
+  res.json({ message: 'Recipe deleted successfully!' });
+});
+
 app.get('/wishlist/:userId', async (req, res) => {
   try {
     const wishlist = await Wishlist.findOne({ userId: req.params.userId });
@@ -128,7 +133,7 @@ app.post('/wishlist/remove', async (req, res) => {
 
 app.get('/recipes', async (req, res) => {
   try {
-    const { label} = req.query;
+    const { label, ingredients, timeLimit } = req.query;
 
     let filter = {};
 
@@ -136,13 +141,24 @@ app.get('/recipes', async (req, res) => {
       filter.label = { $regex: label, $options: 'i' }; 
     }
 
+    if (ingredients) {
+      const ingredientList = ingredients.split(',').map(ing => ing.trim());
+      filter.ingredients = { $all: ingredientList }; 
+    }
+
+    if (timeLimit) {
+      filter.totalTime = { $lte: parseInt(timeLimit, 10) };
+    }
+
     const recipes = await Recipe.find(filter);
 
     res.json(recipes);
   } catch (err) {
+    console.error('Error fetching recipes:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
+
 
 app.post('/recipes', async (req, res) => {
   const { label, image, totalTime, calories, ingredients,procedure } = req.body;
