@@ -1,0 +1,29 @@
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+serviceAccount:
+  create: true
+  name: ""
+# values.yaml
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+image:
+  repository: elankumaran21/recipe-finder
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 80
+
+replicas: 1
