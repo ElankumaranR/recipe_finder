@@ -39,8 +39,14 @@ const Signup = () => {
 
       navigate('/login'); 
     } catch (err) {
-      setError(err.message || 'Error creating account. Please try again.');
-    }
+  if (err.code === 'auth/email-already-in-use') {
+    setError('This email is already registered.');
+  } else if (err.code === 'auth/weak-password') {
+    setError('Password should be at least 6 characters.');
+  } else {
+    setError(err.message || 'Error creating account. Please try again.');
+  }
+}
   };
 
   return (

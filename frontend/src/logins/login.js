@@ -37,7 +37,7 @@ const Login = () => {
         localStorage.setItem('user', JSON.stringify({
           uid: user.uid,
           email: user.email,
-          username: data.user.username,
+          username: user.username,
         }));
 
         navigate('/search');

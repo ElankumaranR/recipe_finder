@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Wishlist.css'; // Your custom styles
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const apiKey = 'e853d5e10b66414ea825020d21772872'; // Replace with your Spoonacular API key
+const apiKey = 'f4699cce44dd498dac1f154d911c77c0'; // Replace with your Spoonacular API key
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
