@@ -105,8 +105,15 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <nav className="navbar navbar-dark bg-dark">
-        <a className="navbar-brand" href="/">Recipe Admin</a>
-        <button className="btn btn-outline-light" onClick={handleLogout}>Logout</button>
+        <h1>Recipe Admin</h1>
+         <div className="d-flex justify-content-center mb-4">
+          <button
+            className="btn btn-success"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
       </nav>
 
       <div className="container mt-4">
