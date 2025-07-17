@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
-import Search from './search/Search';
+import Search from './search/search';
 import Home from './home/home';
 import Signup from './logins/signup';
 import Login from './logins/login';
