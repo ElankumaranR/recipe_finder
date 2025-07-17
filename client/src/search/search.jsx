@@ -23,7 +23,7 @@ const Search = () => {
         procedure: recipe.summary
       }));
 
-      const response = await axios.get(`http://localhost:5000/recipes`, {
+      const response = await axios.get(`${import.meta.env.VITE_URL}/recipes`, {
         params: { label: query, ingredients, timeLimit }
       });
 

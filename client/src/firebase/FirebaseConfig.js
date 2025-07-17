@@ -3,13 +3,13 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCQPGTYc-0oFLl4sRte7crgw6GSED_yX0w",
-  authDomain: "recipe-finder-584c7.firebaseapp.com",
-  projectId: "recipe-finder-584c7",
-  storageBucket: "recipe-finder-584c7.firebasestorage.app",
-  messagingSenderId: "384392167262",
-  appId: "1:384392167262:web:6b4313583293d4959699cf",
-  measurementId: "G-G961CMC0WK"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
+  measurementId: import.meta.env.VITE_measurementId
 };
 
 const app = initializeApp(firebaseConfig);

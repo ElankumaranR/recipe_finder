@@ -21,7 +21,7 @@ const AdminLogin = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post('http://localhost:5000/admin/login', formData);
+      const res = await axios.post(`${import.meta.env.VITE_URL}/admin/login`, formData);
       localStorage.setItem('token', res.data.token);
       navigate('/dash');
     } catch (err) {

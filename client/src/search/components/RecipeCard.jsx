@@ -16,7 +16,7 @@ const RecipeCard = ({ recipe, userId }) => {
 
   const addToWishlist = async () => {
     try {
-      await axios.post('http://localhost:5000/wishlist/add', { userId, recipeId: recipe._id });
+      await axios.post(`${import.meta.env.VITE_URL}/wishlist/add`, { userId, recipeId: recipe._id });
       setWishlistAdded(true);
     } catch (error) {
       console.error("Error adding to wishlist:", error);

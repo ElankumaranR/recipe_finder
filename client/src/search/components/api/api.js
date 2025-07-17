@@ -1,4 +1,4 @@
-const apiKey = 'f4699cce44dd498dac1f154d911c77c0';
+const apiKey = import.meta.env.VITE_API;
 export const fetchRecipes = async (query, ingredients, timeLimit) => {
   let searchUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}`;
 

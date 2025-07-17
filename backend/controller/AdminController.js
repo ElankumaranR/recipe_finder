@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Recipe = require('../models/RecipeSchema');
 const Admin = require('../models/AdminSchema');
 const bcrypt = require('bcryptjs');

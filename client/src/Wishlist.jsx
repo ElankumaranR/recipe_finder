@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const apiKey = 'f4699cce44dd498dac1f154d911c77c0';
+const apiKey = import.meta.env.VITE_API;
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
@@ -17,7 +17,7 @@ const Wishlist = () => {
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/wishlist/${userId}`);
+        const response = await axios.get(`${import.meta.env.VITE_URL}wishlist/${userId}`);
         setWishlist(response.data);
         fetchRecipeDetails(response.data);
       } catch (error) {
@@ -43,7 +43,7 @@ const Wishlist = () => {
 
   const removeFromWishlist = async (recipeId) => {
     try {
-      await axios.post('http://localhost:5000/wishlist/remove', { userId, recipeId });
+      await axios.post(`${import.meta.env.VITE_URL}/wishlist/remove`, { userId, recipeId });
       setWishlist(wishlist.filter((id) => id !== recipeId));
       setRecipeDetails(recipeDetails.filter((recipe) => recipe.id !== recipeId));
     } catch (error) {

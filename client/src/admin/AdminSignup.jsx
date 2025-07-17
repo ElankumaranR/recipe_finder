@@ -20,7 +20,7 @@ const AdminSignup = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post('http://localhost:5000/admin/signup', formData);
+      const res = await axios.post(`${import.meta.env.VITE_URL}/admin/signup`, formData);
       setMessage(res.data.message);
     } catch (err) {
       setMessage(err.response?.data?.message || 'Server error');

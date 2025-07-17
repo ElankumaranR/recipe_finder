@@ -18,7 +18,7 @@ const Signup = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      const response = await fetch('http://localhost:5000/api/signup', {
+      const response = await fetch(`${import.meta.env.VITE_URL}/api/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, uid: user.uid }),
