@@ -64,18 +64,20 @@ const Wishlist = () => {
               <img src={recipe.image} alt={recipe.title} className="w-full h-48 object-cover" />
               <div className="p-4 flex flex-col gap-2">
                 <h3 className="text-lg font-bold">{recipe.title}</h3>
-                <button
-                  className="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700"
-                  onClick={() => setSelectedRecipe(recipe)}
-                >
-                  View Details
-                </button>
-                <button
-                  className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
-                  onClick={() => removeFromWishlist(recipe.id)}
-                >
-                  Remove
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded hover:bg-blue-700"
+                    onClick={() => setSelectedRecipe(recipe)}
+                  >
+                    Details
+                  </button>
+                  <button
+                    className="bg-red-500 text-white text-xs px-2 py-0.5 rounded hover:bg-red-600"
+                    onClick={() => removeFromWishlist(recipe.id)}
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             </div>
           ))}
