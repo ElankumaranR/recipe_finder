@@ -17,7 +17,7 @@ const Wishlist = () => {
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_URL}wishlist/${userId}`);
+        const response = await axios.get(`${import.meta.env.VITE_URL}/wishlist/${userId}`);
         setWishlist(response.data);
         fetchRecipeDetails(response.data);
       } catch (error) {
